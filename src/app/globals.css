@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+/* Theme: inspired by navtec.com. Deep teal + rust red on warm sand,
+   bookish serif headings, bold uppercase sans labels and buttons,
+   wavy section edges. */
+@theme {
+  --color-ink: #062c3c; /* deep teal: main text and dark sections */
+  --color-panel: #031820; /* darkest teal: footer */
+  --color-cream: #ebe6d8; /* sand: page background */
+  --color-paper: #fcfbf8; /* off-white: cards */
+  --color-sand: #e2dbc9;
+  --color-line: #d6cdb8;
+  --color-dash: rgb(252 251 248 / 0.15);
+  --color-muted: #4f6168;
+  --color-accent: #5b1f11; /* rust red: buttons, labels */
+  --color-accent-dark: #43160b;
+  --color-accent-light: #bf9670; /* desert tan: accents on teal */
+  --color-accent-soft: #efe3d3;
+  --color-danger: #a8261b;
+  --color-danger-soft: #fbe6e3;
+
+  --font-display: var(--font-eczar), Georgia, serif;
+  --font-label: var(--font-montserrat), system-ui, sans-serif;
+  --font-sans: var(--font-geologica), system-ui, sans-serif;
+
+  --radius-btn: 0.6rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

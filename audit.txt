@@ -1,0 +1,252 @@
+GLOBAL SKILLS SERVICES - WEBSITE AUDIT & REDESIGN
+==================================================
+Site audited:   https://www.globalskillsservices.com
+Audit date:     24 October 2026
+Rebuild:        Next.js 15 project in this folder
+
+
+1. SUMMARY
+----------
+The current site has the right information, but it doesn't turn visitors into
+enquiries. There is no clear "Enrol" or "Enquire" action, courses are hard to
+browse, and several issues hurt trust and accessibility (typos, missing alt
+text, broken menu link, outdated Covid content).
+
+The rebuild keeps the same business content and URLs, and fixes these issues.
+Its focus is getting visitors to an enquiry in as few clicks as possible.
+
+
+2. FINDINGS ON THE CURRENT SITE
+-------------------------------
+Severity: HIGH = costs enquiries or trust, MED = hurts usability/SEO,
+LOW = polish.
+
+CONVERSION
+[HIGH] No main call to action. Nowhere on the homepage says "Enrol",
+       "Book" or "Enquire".
+[HIGH] Course cards don't lead anywhere useful. All three homepage
+       category images link to the same /course page.
+[HIGH] Course pages show full details (fee, duration, assessment) for
+       only one course per category. The rest are titles only, with no
+       way to enquire about a specific course.
+[MED]  The contact form doesn't make clear what to fill in, and there is
+       no option for learner vs employer enquiries.
+[MED]  Employers have no page of their own, only one homepage paragraph.
+
+CONTENT & TRUST
+[HIGH] Testimonials contain many spelling errors (e.g. "recommand",
+       "assesor", "colleaugues", "flixibilty", "Induiction").
+[MED]  The homepage repeats itself. "We have one aim" appears twice, and the
+       welcome and "We aim to deliver" sections say the same thing.
+[MED]  The Health & Safety page still has 2020-era Covid rules (2m
+       distancing, "five together" groups). This makes the site look
+       unmaintained.
+[MED]  Course naming is inconsistent. The End of Life Care course is titled
+       "Certificate in End of Life Care" in one place and "Principles of
+       End of Life Care" in another.
+[LOW]  The footer heading "Category" sits above legal links only.
+[LOW]  The privacy and cookie policies are PDF downloads, not web pages.
+
+NAVIGATION & ACCESSIBILITY
+[HIGH] Partner/accreditation logos have no alt text or names. Screen
+       readers and Google can't tell what they are.
+[MED]  The "About" menu item links to "#" (goes nowhere).
+[MED]  Social icons have no text labels, and the X/Twitter link goes to the
+       generic twitter.com homepage, not the company profile.
+[MED]  The email address is hidden by Cloudflare email obfuscation, so some
+       visitors and tools can't read or copy it.
+[LOW]  Long blocks of text with weak heading structure are hard to scan,
+       especially on mobile.
+
+TECHNICAL / SEO
+[MED]  Custom PHP CMS (/uploads/... paths). Staff can't easily update
+       courses, and the platform is hard to maintain.
+[MED]  No structured data (schema.org) to help Google show the business
+       details.
+[LOW]  Course URLs mix styles (/course vs /course-detail/...).
+
+
+3. WHAT THE REBUILD CHANGES
+---------------------------
+Conversion
+- An "Enquire now" button is in the header on every page, and an
+  "Enquire" button sits on every single course.
+- Clicking Enquire opens the contact form with that course already
+  selected.
+- New homepage hero with a clear headline and two actions: "Find your course"
+  and "Book a free consultation".
+- The Oliver McGowan training is featured on the homepage, because it's the
+  main promotion on the current site.
+- New "For employers" page (training needs analysis, compliance training,
+  group programmes, leadership).
+- A "How it works" 4-step section explains the process from first call to
+  certificate.
+
+Courses
+- All 7 subject areas and 34 courses are in one data file:
+  src/lib/courses.ts
+- The All Courses page has search plus filters by subject and level.
+- Each subject has its own page showing level, duration, fee, awarding body
+  and assessment. It shows "Ask us" where the current site has no data.
+
+Content
+- All copy is rewritten: shorter, no repetition, clear headings.
+- Mission & Vision are merged into the About page.
+- "Health & Safety" is now "Safeguarding". The Covid section is removed, and
+  the Designated Safeguarding Lead and how to report a concern are shown
+  prominently.
+- Student information is split into scannable cards, plus a list of
+  policies.
+
+Accessibility (WCAG 2.1 AA target)
+- "Skip to content" link, proper heading order, visible keyboard focus.
+- Labelled form fields with clear error messages.
+- Real text links for social media and legal pages.
+- Respects the "reduce motion" setting.
+- Works on mobile, with a mobile menu.
+
+Technical / SEO
+- Every page is pre-built as static HTML, so pages load fast.
+- Unique page titles and descriptions.
+- Automatic sitemap.xml and robots.txt.
+- schema.org EducationalOrganization data (address, phone, email).
+- Permanent (308) redirects from every old URL, so existing Google rankings
+  and links keep working:
+    /course                    -> /courses
+    /course-detail/<category>  -> /courses/<category>
+    /mission                   -> /about
+    /work, /job-detail/...     -> /careers
+    /contact-us                -> /contact
+    /health-safety             -> /safeguarding
+    /gallery                   -> /about (temporary)
+- The contact form has validation, spam protection (a hidden "honeypot"
+  field) and a consent checkbox.
+
+
+4. NEEDS CLIENT INPUT BEFORE LAUNCH
+-----------------------------------
+These items are placeholders or new wording that the business must confirm.
+
+Assets / images (migrated 25 Oct 2026 into public/images, mapped in src/lib/images.ts)
+[x] Official logo is in use in the header and footer (footer shows it in white).
+[x] Course category photos, "why us" photos, page header photos and the
+    Oliver McGowan graphic were all migrated, with new alt text.
+[x] Partner logos are shown with their names: iCQ Awards, NCFE, CACHE,
+    Association of Healthcare Trainers, Disability Confident, ICO and
+    SME Climate Hub.
+[ ] Confirm the business holds a licence for every stock photo. Most look
+    like stock images.
+[ ] Logo: an SVG or larger PNG is wanted. The current file is 1000x240,
+    which is fine but not sharp on large screens.
+[ ] Some partner logos are tiny (ICO 87px, CACHE 73px wide) and look
+    blurry. Get the official versions from each body.
+[ ] Not migrated on purpose:
+    - Learner photos from testimonials (testimonials not used yet).
+    - Old Covid images.
+    - Duplicate slides and banners. 4 of the 6 old slides were the same
+      graduation photo.
+    - Gallery promo posters. They show a DIFFERENT phone number
+      (+44 203 468 0738) and address (20-22 Wenlock Road, London) from the
+      rest of the site. Which details are correct?
+    - The National Equality Register image is a wide banner, not a logo.
+      A proper logo is needed.
+[ ] The matrix accreditation poster is shown on the About page. Confirm
+    the accreditation is current, and supply the matrix logo if possible.
+
+Course data (src/lib/courses.ts)
+[ ] Duration, fee and awarding body for every course. Only 7 of the 34
+    courses have this published today.
+[ ] Confirm the correct title for the End of Life Care course.
+[ ] Confirm which courses are funded, and any funding wording.
+
+Copy to approve (new wording, not from the current site)
+[ ] "We reply within one working day" (contact page and form).
+[ ] Employer page promises: "named contact for your organisation", "regular
+    progress updates on each learner".
+[ ] Safeguarding: "Every concern is taken seriously and handled
+    confidentially."
+
+Testimonials
+[ ] Not migrated on purpose, because of the typos and because they had no
+    surnames or course details. Please supply 3-6 short, approved quotes
+    (first name, role, course) with permission from each learner.
+
+Links & legal
+[ ] Real Facebook / Instagram / X profile URLs (src/lib/site.ts). They
+    currently point to the generic homepages, same as the live site.
+[ ] Privacy, cookie and terms pages. For now they link to the existing PDFs
+    and page on the live domain. Convert them to proper web pages.
+[ ] Gallery: keep it (needs photos) or drop it. It redirects to /about
+    for now.
+[ ] Full policy documents for the Student Information page.
+
+
+5. TECH STACK
+-------------
+Framework   Next.js 15 (App Router) + React 19 + TypeScript
+Styling     Tailwind CSS v4. Brand colours and fonts are in
+            src/app/globals.css.
+Theme       Visual style inspired by navtec.com: deep teal (#062c3c) and
+            rust red (#5b1f11) on warm sand (#ebe6d8), off-white cards
+            (#fcfbf8), desert-tan accents (#bf9670). Floating rounded header
+            bar, wavy section edges, photo tiles with stats, image cards with
+            badges, numbered hexagon steps. All code, wording and graphics
+            are our own; only the general style is borrowed. Colours live in
+            src/app/globals.css.
+Fonts       Eczar (headings), Montserrat (labels and buttons), Geologica
+            (body), via next/font. They are self-hosted at build time.
+Forms       Next.js Server Action (src/app/actions.ts). Sends email through
+            Resend when RESEND_API_KEY is set. Otherwise it logs to the
+            server console.
+Hosting     Recommended: Vercel. Keep Cloudflare for DNS.
+
+Recommended next phase
+- Headless CMS (Sanity or Payload) so staff can edit courses and testimonials
+  without a developer. The course data is already separate from the page
+  code, so this is a straight swap.
+- Online booking and payment with Stripe for fixed-price courses.
+- Analytics (Plausible or GA4) plus conversion tracking on enquiries.
+
+
+6. PROJECT STRUCTURE
+--------------------
+src/lib/site.ts            Contact details, nav, social and legal links
+src/lib/courses.ts         All course categories and courses
+src/app/page.tsx           Homepage
+src/app/courses/           All courses + one page per subject
+src/app/employers/         Employer services
+src/app/about/             About, mission & vision
+src/app/careers/           Work for us
+src/app/student-information/
+src/app/safeguarding/      Safeguarding, health & safety
+src/app/contact/           Enquiry form + contact details
+src/app/actions.ts         Form handling / email sending
+src/components/            Header, Footer, Logo, EnquiryForm, CourseFinder, UI
+next.config.ts             Old-URL redirects
+
+
+7. RUNNING & DEPLOYING
+----------------------
+Install:      npm install
+Develop:      npm run dev        -> http://localhost:3000
+Production:   npm run build && npm start
+
+Email setup (production). Set these environment variables:
+  RESEND_API_KEY   API key from resend.com
+  ENQUIRY_TO       Inbox that receives enquiries (default: info@...)
+  ENQUIRY_FROM     Verified sender, e.g. "Website <web@globalskillsservices.com>"
+
+Build status at time of audit: passes (21 pages generated). All pages
+return 200, old URLs redirect, and unknown URLs show the custom 404 page.
+
+
+8. LAUNCH CHECKLIST
+-------------------
+[ ] Section 4 items supplied and added
+[ ] Resend domain verified and test enquiry received
+[ ] Deploy to Vercel, connect the domain through Cloudflare DNS
+[ ] Check the redirects on the live domain
+[ ] Submit sitemap.xml in Google Search Console
+[ ] Run Lighthouse (target 90+ in all four categories)
+[ ] Test on iPhone, Android and desktop (Chrome, Safari, Edge)
+[ ] Keyboard-only and screen-reader check of the contact form
