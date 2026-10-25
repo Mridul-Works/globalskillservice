@@ -1,13 +1,33 @@
 import type { Metadata } from "next";
-import { Eczar, Geologica, Montserrat } from "next/font/google";
+import localFont from "next/font/local";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const eczar = Eczar({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-eczar", display: "swap" });
-const montserrat = Montserrat({ subsets: ["latin"], weight: ["500", "600", "700"], variable: "--font-montserrat", display: "swap" });
-const geologica = Geologica({ subsets: ["latin"], weight: ["300", "400", "500"], variable: "--font-geologica", display: "swap" });
+// Fonts are stored in src/fonts (latin subset, variable weight, SIL Open Font License),
+// so dev and builds never depend on reaching Google Fonts.
+const eczar = localFont({
+  src: "../fonts/Eczar-latin.woff2",
+  weight: "400 500",
+  variable: "--font-eczar",
+  display: "swap",
+  fallback: ["Georgia", "serif"],
+});
+const montserrat = localFont({
+  src: "../fonts/Montserrat-latin.woff2",
+  weight: "500 700",
+  variable: "--font-montserrat",
+  display: "swap",
+  fallback: ["system-ui", "sans-serif"],
+});
+const geologica = localFont({
+  src: "../fonts/Geologica-latin.woff2",
+  weight: "300 500",
+  variable: "--font-geologica",
+  display: "swap",
+  fallback: ["system-ui", "sans-serif"],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),

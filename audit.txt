@@ -194,7 +194,9 @@ Theme       Visual style inspired by navtec.com: deep teal (#062c3c) and
             are our own; only the general style is borrowed. Colours live in
             src/app/globals.css.
 Fonts       Eczar (headings), Montserrat (labels and buttons), Geologica
-            (body), via next/font. They are self-hosted at build time.
+            (body). Stored in src/fonts and loaded with next/font/local, so
+            dev and builds never need to reach Google Fonts (SIL Open Font
+            License).
 Forms       Next.js Server Action (src/app/actions.ts). Sends email through
             Resend when RESEND_API_KEY is set. Otherwise it logs to the
             server console.
